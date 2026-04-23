@@ -3,6 +3,9 @@ import { useState } from 'react'
 import QuestionCard from '../../components/QuestionCard'
 import styles from './common.module.scss'
 import { useTitle } from 'ahooks'
+import { Empty, Typography } from 'antd'
+
+const { Title } = Typography
 
 const rowQuestionsList = [
   {
@@ -94,10 +97,13 @@ const List: FC = () => {
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.left}>我的问卷</div>
+        <div className={styles.left}>
+          <Title level={3}>我的问卷</Title>
+        </div>
         <div className={styles.right}>（搜索）</div>
       </div>
       <div className={styles.content}>
+        {questionsList.length === 0 && <Empty description="暂无数据" />}
         {questionsList.length > 0 &&
           questionsList.map(question => <QuestionCard key={question._id} {...question} />)}
       </div>
