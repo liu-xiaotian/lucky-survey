@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 import QuestionCard from '../../components/QuestionCard'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
 import { useTitle } from 'ahooks'
 
 const rowQuestionsList = [
@@ -11,7 +11,7 @@ const rowQuestionsList = [
     isPublished: false,
     isStar: false,
     answerCount: 5,
-    createAt: '3月10日 13:23',
+    createdAt: '3月10日 13:23',
   },
   {
     _id: 'q2',
@@ -19,7 +19,7 @@ const rowQuestionsList = [
     isPublished: true,
     isStar: false,
     answerCount: 5,
-    createAt: '3月10日 13:23',
+    createdAt: '3月10日 13:23',
   },
   {
     _id: 'q3',
@@ -27,7 +27,7 @@ const rowQuestionsList = [
     isPublished: false,
     isStar: true,
     answerCount: 2,
-    createAt: '3月10日 13:24',
+    createdAt: '3月10日 13:24',
   },
   {
     _id: 'q4',
@@ -35,7 +35,7 @@ const rowQuestionsList = [
     isPublished: true,
     isStar: false,
     answerCount: 8,
-    createAt: '3月10日 13:25',
+    createdAt: '3月10日 13:25',
   },
   {
     _id: 'q5',
@@ -43,7 +43,7 @@ const rowQuestionsList = [
     isPublished: false,
     isStar: false,
     answerCount: 3,
-    createAt: '3月10日 13:26',
+    createdAt: '3月10日 13:26',
   },
   {
     _id: 'q6',
@@ -51,7 +51,7 @@ const rowQuestionsList = [
     isPublished: true,
     isStar: true,
     answerCount: 7,
-    createAt: '3月10日 13:27',
+    createdAt: '3月10日 13:27',
   },
   {
     _id: 'q7',
@@ -59,7 +59,7 @@ const rowQuestionsList = [
     isPublished: false,
     isStar: false,
     answerCount: 1,
-    createAt: '3月10日 13:28',
+    createdAt: '3月10日 13:28',
   },
   {
     _id: 'q8',
@@ -67,7 +67,7 @@ const rowQuestionsList = [
     isPublished: true,
     isStar: false,
     answerCount: 4,
-    createAt: '3月10日 13:29',
+    createdAt: '3月10日 13:29',
   },
   {
     _id: 'q9',
@@ -75,7 +75,7 @@ const rowQuestionsList = [
     isPublished: false,
     isStar: true,
     answerCount: 6,
-    createAt: '3月10日 13:30',
+    createdAt: '3月10日 13:30',
   },
   {
     _id: 'q10',
@@ -83,7 +83,7 @@ const rowQuestionsList = [
     isPublished: true,
     isStar: false,
     answerCount: 9,
-    createAt: '3月10日 13:31',
+    createdAt: '3月10日 13:31',
   },
 ]
 
@@ -98,11 +98,10 @@ const List: FC = () => {
         <div className={styles.right}>（搜索）</div>
       </div>
       <div className={styles.content}>
-        {questionsList.map(question => (
-          <QuestionCard key={question._id} {...question} />
-        ))}
+        {questionsList.length > 0 &&
+          questionsList.map(question => <QuestionCard key={question._id} {...question} />)}
       </div>
-      <div className={styles.footer}>footer</div>
+      <div className={styles.footer}>LoadMore... 加载更多</div>
     </>
   )
 }
