@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 import QuestionCard from '../../components/QuestionCard'
 import styles from './List.module.scss'
+import { useTitle } from 'ahooks'
 
 const rowQuestionsList = [
   {
@@ -87,6 +88,7 @@ const rowQuestionsList = [
 ]
 
 const List: FC = () => {
+  useTitle('天天问卷 - 我的问卷')
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const [questionsList, setQuestionsList] = useState(rowQuestionsList)
   return (
