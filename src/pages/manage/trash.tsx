@@ -39,7 +39,7 @@ const tableColumns = [
     title: '是否发布',
     dataIndex: 'isPublished',
     key: 'isPublished',
-    rander: (isPublished: boolean) => {
+    render: (isPublished: boolean) => {
       return isPublished ? <Tag color="processing">已发布</Tag> : <Tag>未发布</Tag>
     },
   },

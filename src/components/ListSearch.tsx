@@ -15,6 +15,8 @@ const ListSearch: React.FC = () => {
 
   return (
     <Search
+      size="large"
+      allowClear
       placeholder="输入关键字"
       value={value}
       onChange={handleChange}
