@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography, Empty, Table, Tag } from 'antd'
 import styles from './common.module.scss'
+import ListSearch from '../../components/ListSearch'
 
 const { Title } = Typography
 const rowQuestionsList = [
@@ -56,7 +57,9 @@ const Trash = () => {
         <div className={styles.left}>
           <Title level={3}>回收站</Title>
         </div>
-        <div className={styles.right}>(搜索)</div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles.content}>
         {questionsList.length === 0 && <Empty description="暂无数据" />}

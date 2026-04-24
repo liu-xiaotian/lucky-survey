@@ -13,7 +13,7 @@ const Logo = () => {
           <Title>
             <FormOutlined />
           </Title>
-          <Title>天天问卷</Title>
+          <Title>幸运问卷</Title>
         </Space>
       </Link>
     </div>

@@ -3,6 +3,7 @@ import { useTitle } from 'ahooks'
 import { Empty, Typography } from 'antd'
 import styles from './common.module.scss'
 import QuestionCard from '../../components/QuestionCard'
+import ListSearch from '../../components/ListSearch'
 
 const { Title } = Typography
 const rowQuestionsList = [
@@ -32,7 +33,7 @@ const rowQuestionsList = [
   },
 ]
 const Star = () => {
-  useTitle('天天问卷 - 星标问卷')
+  useTitle('幸运问卷 - 星标问卷')
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const [questionsList, setQuestionsList] = useState(rowQuestionsList)
   return (
@@ -41,7 +42,9 @@ const Star = () => {
         <div className={styles.left}>
           <Title level={3}>星标问卷</Title>
         </div>
-        <div className={styles.right}>（搜索）</div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles.content}>
         {questionsList.length === 0 && <Empty description="暂无数据" />}

@@ -92,7 +92,7 @@ const rowQuestionsList = [
 ]
 
 const List: FC = () => {
-  useTitle('天天问卷 - 我的问卷')
+  useTitle('幸运问卷 - 我的问卷')
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const [questionsList, setQuestionsList] = useState(rowQuestionsList)
   return (

@@ -23,7 +23,7 @@ const MainLayout = () => {
           <Outlet />
         </Content>
       </Layout>
-      <Footer className={styles.footer}>天天问卷 &copy; 2026 - present. Created by tian</Footer>
+      <Footer className={styles.footer}>幸运问卷 &copy; 2026 - present. Created by tian</Footer>
     </Layout>
   )
 }
