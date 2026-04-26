@@ -1,35 +1,11 @@
 import React from 'react'
-import { Typography, Empty, Table, Tag } from 'antd'
+import { Typography, Empty, Table, Tag, Spin } from 'antd'
 import styles from './common.module.scss'
 import ListSearch from '../../components/ListSearch'
+import UseLoadQuestionListData from '../../hooks/UseLoadQuestionListData'
 
 const { Title } = Typography
-const rowQuestionsList = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createdAt: '3月10日 13:23',
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: false,
-    answerCount: 5,
-    createdAt: '3月10日 13:23',
-  },
-  {
-    _id: 'q3',
-    title: '问卷3',
-    isPublished: false,
-    isStar: true,
-    answerCount: 2,
-    createdAt: '3月10日 13:24',
-  },
-]
+
 const tableColumns = [
   {
     title: '问卷标题',
@@ -49,8 +25,8 @@ const tableColumns = [
 ]
 
 const Trash = () => {
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  const [questionsList, setQuestionsList] = React.useState(rowQuestionsList)
+  const { data = {}, loading } = UseLoadQuestionListData({ isDeleted: true })
+  const { list = [] } = data
   return (
     <>
       <div className={styles.header}>
@@ -62,10 +38,13 @@ const Trash = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionsList.length === 0 && <Empty description="暂无数据" />}
-        {questionsList.length > 0 && (
-          <Table dataSource={questionsList} columns={tableColumns} pagination={false} />
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />
+          </div>
         )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {list.length > 0 && <Table dataSource={list} columns={tableColumns} pagination={false} />}
       </div>
     </>
   )
