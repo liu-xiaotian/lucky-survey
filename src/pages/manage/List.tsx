@@ -1,18 +1,42 @@
-import type { FC } from 'react'
-import QuestionCard from '../../components/QuestionCard'
+import { useEffect, type FC } from 'react'
 import styles from './common.module.scss'
-import { useTitle } from 'ahooks'
-import { Spin, Typography } from 'antd'
+import { useDebounceFn, useTitle } from 'ahooks'
+import { Typography } from 'antd'
 import ListSearch from '../../components/ListSearch'
-import UseLoadQuestionListData from '../../hooks/UseLoadQuestionListData'
+import { useSearchParams } from 'react-router-dom'
 
 const { Title } = Typography
 
 const List: FC = () => {
   useTitle('幸运问卷 - 我的问卷')
-  const { data = {}, loading } = UseLoadQuestionListData()
-  const { list = [] } = data
 
+  // const [page, setPage] = useState(1)
+  // const [list, setList] = useState([])
+  // const [total, setTotal] = useState(0)
+  // const haveMoreData = total > list.length
+
+  const [searchParams] = useSearchParams()
+  // 触发加载
+  const { run: tryLoadMore } = useDebounceFn(
+    () => {
+      console.log('tryloadmore')
+    },
+    {
+      wait: 1000,
+    }
+  )
+
+  useEffect(() => {
+    tryLoadMore()
+  }, [searchParams])
+  useEffect(() => {
+    // if (haveMoreData) {
+    window.addEventListener('scroll', tryLoadMore)
+    // }
+    return () => {
+      window.removeEventListener('scroll', tryLoadMore)
+    }
+  }, [searchParams])
   return (
     <>
       <div className={styles.header}>
@@ -23,17 +47,7 @@ const List: FC = () => {
           <ListSearch />
         </div>
       </div>
-      <div className={styles.content}>
-        {loading && (
-          <div style={{ textAlign: 'center' }}>
-            <Spin />
-          </div>
-        )}
-        {/* 问卷列表 */}
-        {!loading &&
-          list.length > 0 &&
-          list.map((question: any) => <QuestionCard key={question._id} {...question} />)}
-      </div>
+      <div className={styles.content}></div>
       <div className={styles.footer}>LoadMore... 加载更多</div>
     </>
   )

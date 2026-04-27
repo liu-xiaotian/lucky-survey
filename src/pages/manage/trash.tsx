@@ -1,4 +1,3 @@
-import React from 'react'
 import { Typography, Empty, Table, Tag, Spin } from 'antd'
 import styles from './common.module.scss'
 import ListSearch from '../../components/ListSearch'
