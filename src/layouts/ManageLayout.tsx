@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import styles from './ManageLayout.module.scss'
 import { Button, Space, Divider, message } from 'antd'
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from '@ant-design/icons'
-import { createQuestionService } from '../service/question'
+import { createQuestionService } from '../services/question'
 import { useRequest } from 'ahooks'
 
 const ManageLayout = () => {

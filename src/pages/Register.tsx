@@ -1,7 +1,9 @@
-import { Typography, Space, Form, Input, Button } from 'antd'
+import { Typography, Space, Form, Input, Button, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
+import { useRequest } from 'ahooks'
 import { LOGIN_PATHNAME } from '../router'
+import { registerService } from '../services/user'
 import styles from './Register.module.scss'
 
 const { Title } = Typography
@@ -9,9 +11,22 @@ const { Title } = Typography
 const Register = () => {
   const nav = useNavigate()
 
-  const onFinish = (values: unknown) => {
-    console.log(values)
-    nav(LOGIN_PATHNAME) // 跳转到登录页
+  const { run } = useRequest(
+    async values => {
+      const { username, password, nickname } = values
+      await registerService(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('注册成功')
+        nav(LOGIN_PATHNAME) // 跳转到登录页
+      },
+    }
+  )
+
+  const onFinish = (values: any) => {
+    run(values) // 调用 ajax
   }
 
   return (

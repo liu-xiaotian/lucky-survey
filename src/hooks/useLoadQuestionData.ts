@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { getQuestionService } from '../service/question'
+import { getQuestionService } from '../services/question'
 import { useRequest } from 'ahooks'
 
 function useLoadingQuestionData() {

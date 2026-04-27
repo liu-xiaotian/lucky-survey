@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import styles from './QuestionCard.module.scss'
 import { useRequest } from 'ahooks'
-import { duplicateQuestionService, updateQuestionService } from '../service/question'
+import { duplicateQuestionService, updateQuestionService } from '../services/question'
 
 const { confirm } = Modal
 
