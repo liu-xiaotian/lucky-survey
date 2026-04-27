@@ -3,14 +3,14 @@ import { Empty, Spin, Typography } from 'antd'
 import styles from './common.module.scss'
 import QuestionCard from '../../components/QuestionCard'
 import ListSearch from '../../components/ListSearch'
-import UseLoadQuestionListData from '../../hooks/UseLoadQuestionListData'
+import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import ListPage from '../../components/ListPage'
 
 const { Title } = Typography
 
 const Star = () => {
   useTitle('幸运问卷 - 星标问卷')
-  const { data = {}, loading } = UseLoadQuestionListData({ isStar: true })
+  const { data = {}, loading } = useLoadQuestionListData({ isStar: true })
   const { list = [], total = 0 } = data
   return (
     <>
