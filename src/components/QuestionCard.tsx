@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from 'antd'
 import {
@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import styles from './QuestionCard.module.scss'
 import { useRequest } from 'ahooks'
-import { updateQuestionService } from '../service/question'
+import { duplicateQuestionService, updateQuestionService } from '../service/question'
 
 const { confirm } = Modal
 
@@ -43,17 +43,40 @@ const QuestionCard: React.FC<PropsType> = (props: PropsType) => {
     }
   )
 
-  function duplicate() {
-    message.success('复制成功')
-  }
+  // 复制
+  const { loading: duplicateLoading, run: duplicate } = useRequest(
+    async () => {
+      await duplicateQuestionService(_id)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('复制成功')
+      },
+    }
+  )
 
+  //删除
+  const [isDeletedState, setIsDeleteState] = useState(false)
+  const { loading: deleteLoading, run: deleteQuestion } = useRequest(
+    async () => await updateQuestionService(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess() {
+        setIsDeleteState(true)
+        message.success('删除成功')
+      },
+    }
+  )
   function del() {
     confirm({
       title: '确定删除该问卷？',
       icon: <ExclamationCircleOutlined />,
-      onOk: () => message.success('删除成功'),
+      onOk: deleteQuestion,
     })
   }
+  // 已经删除的问卷，不要再渲染卡片了
+  if (isDeletedState) return null
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -113,11 +136,17 @@ const QuestionCard: React.FC<PropsType> = (props: PropsType) => {
               cancelText="取消"
               onConfirm={duplicate}
             >
-              <Button type="text" icon={<CopyOutlined />} size="small">
+              <Button type="text" icon={<CopyOutlined />} size="small" disabled={duplicateLoading}>
                 复制
               </Button>
             </Popconfirm>
-            <Button type="text" icon={<DeleteOutlined />} size="small" onClick={del}>
+            <Button
+              type="text"
+              icon={<DeleteOutlined />}
+              size="small"
+              onClick={del}
+              disabled={deleteLoading}
+            >
               删除
             </Button>
           </Space>
