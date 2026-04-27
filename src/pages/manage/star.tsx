@@ -4,13 +4,14 @@ import styles from './common.module.scss'
 import QuestionCard from '../../components/QuestionCard'
 import ListSearch from '../../components/ListSearch'
 import UseLoadQuestionListData from '../../hooks/UseLoadQuestionListData'
+import ListPage from '../../components/ListPage'
 
 const { Title } = Typography
 
 const Star = () => {
   useTitle('幸运问卷 - 星标问卷')
   const { data = {}, loading } = UseLoadQuestionListData({ isStar: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
   return (
     <>
       <div className={styles.header}>
@@ -34,7 +35,9 @@ const Star = () => {
             return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.footer}>
+        <ListPage total={total} />
+      </div>
     </>
   )
 }

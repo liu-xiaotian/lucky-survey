@@ -3,6 +3,7 @@ import { Typography, Empty, Table, Tag, Spin } from 'antd'
 import styles from './common.module.scss'
 import ListSearch from '../../components/ListSearch'
 import UseLoadQuestionListData from '../../hooks/UseLoadQuestionListData'
+import ListPage from '../../components/ListPage'
 
 const { Title } = Typography
 
@@ -26,7 +27,7 @@ const tableColumns = [
 
 const Trash = () => {
   const { data = {}, loading } = UseLoadQuestionListData({ isDeleted: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
   return (
     <>
       <div className={styles.header}>
@@ -45,6 +46,9 @@ const Trash = () => {
         )}
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {list.length > 0 && <Table dataSource={list} columns={tableColumns} pagination={false} />}
+      </div>
+      <div className={styles.footer}>
+        <ListPage total={total} />
       </div>
     </>
   )
