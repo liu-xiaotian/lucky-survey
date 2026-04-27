@@ -10,6 +10,8 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import styles from './QuestionCard.module.scss'
+import { useRequest } from 'ahooks'
+import { updateQuestionService } from '../service/question'
 
 const { confirm } = Modal
 
@@ -25,6 +27,21 @@ type PropsType = {
 const QuestionCard: React.FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate()
   const { _id, title, createdAt, answerCount, isPublished, isStar } = props
+
+  // 修改 星标
+  const [isStarState, setIsStarState] = React.useState(isStar)
+  const { loading: changeStarLoading, run: changeStar } = useRequest(
+    async () => {
+      await updateQuestionService(_id, { isStar: !isStarState })
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState)
+        message.success('已更新')
+      },
+    }
+  )
 
   function duplicate() {
     message.success('复制成功')
@@ -43,7 +60,7 @@ const QuestionCard: React.FC<PropsType> = (props: PropsType) => {
         <div className={styles.left}>
           <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
             <Space>
-              {isStar && <StarOutlined style={{ color: 'red' }} />}
+              {isStarState && <StarOutlined style={{ color: 'red' }} />}
               {title}
             </Space>
           </Link>
@@ -81,8 +98,14 @@ const QuestionCard: React.FC<PropsType> = (props: PropsType) => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button type="text" icon={<StarOutlined />} size="small">
-              {isStar ? '取消标星' : '标星'}
+            <Button
+              type="text"
+              icon={<StarOutlined />}
+              size="small"
+              onClick={changeStar}
+              disabled={changeStarLoading}
+            >
+              {isStarState ? '取消标星' : '标星'}
             </Button>
             <Popconfirm
               title="确定复制该问卷？"
