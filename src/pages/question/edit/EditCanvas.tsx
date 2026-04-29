@@ -1,5 +1,5 @@
-import QuestionTitle from '../../../components/QuestionComponents/QuestionInput/Component'
-import QuestionInput from '../../../components/QuestionComponents/QusetionTitle/Component'
+import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component'
+import QuestionInput from '../../../components/QuestionComponents/QusetionInput/Component'
 import styles from './EditCanvas.module.scss'
 const EditCanvas = () => {
   return (
