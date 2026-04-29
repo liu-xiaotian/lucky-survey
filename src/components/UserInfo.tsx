@@ -1,18 +1,24 @@
 import { Button, message } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserOutlined } from '@ant-design/icons'
-import { useRequest } from 'ahooks'
+// import { useRequest } from 'ahooks'
 import { LOGIN_PATHNAME } from '../router'
-import { getUserInfoService } from '../services/user'
+// import { getUserInfoService } from '../services/user'
 import { removeToken } from '../utils/user-token'
+import useGetUserInfo from '../hooks/useGetUserInfo'
+import { useDispatch } from 'react-redux'
+import { logoutReducer } from '../store/userReducer'
 
 const UserInfo = () => {
   const nav = useNavigate()
+  const dispatch = useDispatch()
 
-  const { data } = useRequest(getUserInfoService) // ajax
-  const { username, nickname } = data || {}
+  // const { data } = useRequest(getUserInfoService) // ajax
+  // const { username, nickname } = data || {}
+  const { username, nickname } = useGetUserInfo()
 
   function logout() {
+    dispatch(logoutReducer())
     removeToken() // 清除 token 的存储
     message.success('退出成功')
     nav(LOGIN_PATHNAME)
