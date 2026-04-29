@@ -2,11 +2,15 @@ import { Spin } from 'antd'
 import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component'
 import QuestionInput from '../../../components/QuestionComponents/QusetionInput/Component'
 import styles from './EditCanvas.module.scss'
+import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 type PropsType = {
   loading: boolean
 }
 const EditCanvas = ({ loading }: PropsType) => {
+  const { componentList } = useGetComponentInfo()
+  console.log('componentList', componentList)
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', marginTop: '60px ' }}>
