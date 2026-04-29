@@ -1,11 +1,22 @@
-import useLoadingQuestionData from '../../../hooks/useLoadQuestionData'
+// import useLoadingQuestionData from '../../../hooks/useLoadQuestionData'
+import styles from './index.module.scss'
 
 const Edit = () => {
-  const { loading, data } = useLoadingQuestionData()
+  // const { loading, data } = useLoadingQuestionData()
   return (
-    <div>
-      <p>Edit page</p>
-      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>}
+    <div className={styles.container}>
+      <div style={{ backgroundColor: '#fff', height: '40px' }}>Header</div>
+      <div className={styles['container-wrapper']}>
+        <div className={styles.content}>
+          <div className={styles.left}>left</div>
+          <div className={styles.main}>
+            <div className={styles['canvas-wrapper']}>
+              <div style={{ height: '900px', color: 'black' }}>画布</div>
+            </div>
+          </div>
+          <div className={styles.right}>right</div>
+        </div>
+      </div>
     </div>
   )
 }

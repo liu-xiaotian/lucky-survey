@@ -7,18 +7,15 @@ const QuestionLayout = () => {
   const waitingUserData = useLoadUserData()
   useNavPage(waitingUserData)
   return (
-    <>
-      <p>QuestionLayout</p>
-      <div>
-        {waitingUserData ? (
-          <div style={{ textAlign: 'center', marginTop: '60px' }}>
-            <Spin />
-          </div>
-        ) : (
-          <Outlet />
-        )}
-      </div>
-    </>
+    <div>
+      {waitingUserData ? (
+        <div style={{ textAlign: 'center', marginTop: '60px' }}>
+          <Spin />
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </div>
   )
 }
 
