@@ -1,4 +1,5 @@
 // import useLoadingQuestionData from '../../../hooks/useLoadQuestionData'
+import EditCanvas from './EditCanvas'
 import styles from './index.module.scss'
 
 const Edit = () => {
@@ -11,7 +12,7 @@ const Edit = () => {
           <div className={styles.left}>left</div>
           <div className={styles.main}>
             <div className={styles['canvas-wrapper']}>
-              <div style={{ height: '900px', color: 'black' }}>画布</div>
+              <EditCanvas />
             </div>
           </div>
           <div className={styles.right}>right</div>

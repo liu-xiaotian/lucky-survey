@@ -1,0 +1,19 @@
+.canvas{
+  min-height: 100%;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.component-wrapper{ // 要用来点击选中，不可做屏蔽
+  margin: 12px;
+  border: 1px solid #fff;
+  padding: 12px;
+  border-radius: 3px;
+  &:hover{
+    border-color: #d9d9d9;
+  }
+}
+
+.component{
+  pointer-events: none;//屏蔽鼠标行为，不让组件被点击到
+}
