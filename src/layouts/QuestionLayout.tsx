@@ -1,12 +1,20 @@
-import React from 'react'
 import { Outlet } from 'react-router-dom'
+import useLoadUserData from '../hooks/useLoadUserData'
+import { Spin } from 'antd'
 
 const QuestionLayout = () => {
+  const waitingUserData = useLoadUserData()
   return (
     <>
       <p>QuestionLayout</p>
       <div>
-        <Outlet />
+        {waitingUserData ? (
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
+            <Spin />
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </>
   )
