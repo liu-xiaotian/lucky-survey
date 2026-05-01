@@ -1,10 +1,12 @@
 import { Spin } from 'antd'
+import classNames from 'classnames'
 // import QuestionTitle from '../../../components/QuestionComponents/QuestionTitle/Component'
 // import QuestionInput from '../../../components/QuestionComponents/QusetionInput/Component'
 import styles from './EditCanvas.module.scss'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
-import type { ComponentInfoType } from '../../../store/componentsReducer'
+import { changeSelectedId, type ComponentInfoType } from '../../../store/componentsReducer'
 import { getComponentConfByType } from '../../../components/QuestionComponents'
+import { useDispatch } from 'react-redux'
 
 type PropsType = {
   loading: boolean
@@ -29,9 +31,12 @@ function genComponent(componentInfo: ComponentInfoType) {
   return <Component {...props} />
 }
 const EditCanvas = ({ loading }: PropsType) => {
-  const { componentList } = useGetComponentInfo()
-  console.log('componentList', componentList)
-
+  const { componentList, selectedId } = useGetComponentInfo()
+  const dispatch = useDispatch()
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>, id: string) => {
+    event.stopPropagation() // 阻止事件冒泡,点击画布的时候，不会触发父元素的点击事件，main 就不会自动清空
+    dispatch(changeSelectedId(id))
+  }
   if (loading) {
     return (
       <div style={{ textAlign: 'center', marginTop: '60px ' }}>
@@ -43,8 +48,20 @@ const EditCanvas = ({ loading }: PropsType) => {
     <div className={styles.canvas}>
       {componentList.map(c => {
         const { fe_id } = c
+
+        // 拼接 class name
+        const wrapperDefaultClassName = styles['component-wrapper']
+        const selectedClassName = styles.selected
+        const wrapperClassName = classNames({
+          [wrapperDefaultClassName]: true,
+          [selectedClassName]: fe_id === selectedId,
+        })
         return (
-          <div key={fe_id} className={styles['component-wrapper']}>
+          <div
+            key={fe_id}
+            className={wrapperClassName}
+            onClick={event => handleClick(event, fe_id)}
+          >
             <div className={styles.component}>{genComponent(c)}</div>
           </div>
         )

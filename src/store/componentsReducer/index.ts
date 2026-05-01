@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { produce } from 'immer'
 import type { ComponentPropsType } from '../../components/QuestionComponents'
 export type ComponentInfoType = {
   fe_id: string // TODO 后面解释
@@ -8,11 +9,13 @@ export type ComponentInfoType = {
 }
 
 export type ComponentStateType = {
+  selectedId: string // 当前选中的组件 id
   componentList: Array<ComponentInfoType> //存放所有组件的信息
 }
 
 //初始状态
 const INIT_STATE: ComponentStateType = {
+  selectedId: '',
   componentList: [],
   //其他扩展
 }
@@ -26,8 +29,14 @@ export const componentsSlice = createSlice({
     resetComponents: (state: ComponentStateType, action: PayloadAction<ComponentStateType>) => {
       return action.payload
     },
+
+    // 修改 selectId
+    changeSelectedId: produce((draft: ComponentStateType, action: PayloadAction<string>) => {
+      // react redux 不允许直接修改 state，所以使用 immer 库来修改 state （不可变数据）
+      draft.selectedId = action.payload
+    }),
   },
 })
 
-export const { resetComponents } = componentsSlice.actions
+export const { resetComponents, changeSelectedId } = componentsSlice.actions
 export default componentsSlice.reducer

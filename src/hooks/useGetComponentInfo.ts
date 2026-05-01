@@ -9,9 +9,10 @@ import { type ComponentStateType } from '../store/componentsReducer'
 function useGetComponentInfo() {
   const components = useSelector<StateType>(state => state.components) as ComponentStateType
 
-  const { componentList = [] } = components // 解构出组件列表，如果 components 为空，也默认 componentList 是空数组。
+  const { componentList = [], selectedId } = components // 解构出组件列表，如果 components 为空，也默认 componentList 是空数组。
   return {
     componentList, // 返回一个对象 { componentList }，方便调用：
+    selectedId,
   }
 }
 
