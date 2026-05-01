@@ -1,6 +1,8 @@
-import type { FC } from 'react'
+import type { FC } from 'react' //FC 是 React 的 函数组件类型（Function Component）
+// 输入框和标题组件的 props 类型
 import { type QuestionInputPropsType } from './QusetionInput'
 import { type QuestionTitlePropsType } from './QuestionTitle'
+// 引入组件的 元信息对象
 import QuestionTitleConf from './QuestionTitle'
 import QuestionInputConf from './QusetionInput'
 
@@ -11,11 +13,11 @@ export type ComponentPropsType = QuestionInputPropsType & QuestionTitlePropsType
 export type ComponentConfType = {
   title: string
   type: string
-  Component: FC<ComponentPropsType>
+  Component: FC<ComponentPropsType> //这个组件是一个 React 函数组件，接收统一的 ComponentPropsType 类型的 props
   defaultProps: ComponentPropsType
 }
 
-// 全部的组件配置的列表
+// 全部的组件配置的列表 把所有组件的元信息 放到一个数组里，统一管理
 const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf]
 
 export function getComponentConfByType(type: string) {
