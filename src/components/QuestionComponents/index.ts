@@ -14,6 +14,7 @@ export type ComponentConfType = {
   title: string
   type: string
   Component: FC<ComponentPropsType> //这个组件是一个 React 函数组件，接收统一的 ComponentPropsType 类型的 props
+  PropComponent: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
 }
 
