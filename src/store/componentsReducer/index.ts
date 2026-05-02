@@ -35,8 +35,24 @@ export const componentsSlice = createSlice({
       // react redux 不允许直接修改 state，所以使用 immer 库来修改 state （不可变数据）
       draft.selectedId = action.payload
     }),
+
+    // 添加新组件
+    addComponent: produce((draft: ComponentStateType, action: PayloadAction<ComponentInfoType>) => {
+      const newComponent = action.payload
+      const { selectedId, componentList } = draft
+      const index = componentList.findIndex(c => c.fe_id === selectedId)
+
+      if (index < 0) {
+        // 未选中任何组件
+        draft.componentList.push(newComponent)
+      } else {
+        // 选中组件了， 插入到 index 后面
+        draft.componentList.splice(index + 1, 0, newComponent)
+      }
+      draft.selectedId = newComponent.fe_id
+    }),
   },
 })
 
-export const { resetComponents, changeSelectedId } = componentsSlice.actions
+export const { resetComponents, changeSelectedId, addComponent } = componentsSlice.actions
 export default componentsSlice.reducer
