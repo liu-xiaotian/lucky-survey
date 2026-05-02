@@ -20,6 +20,12 @@ export type ComponentConfType = {
 // 全部的组件配置的列表 把所有组件的元信息 放到一个数组里，统一管理
 const componentConfList: ComponentConfType[] = [QuestionInputConf, QuestionTitleConf]
 
+// 组件分组
+export const componentConfGroup = [
+  { groupId: 'textGroup', groupName: '文本显示', components: [QuestionTitleConf] },
+  { groupId: 'inputGroup', groupName: '用户输入', components: [QuestionInputConf] },
+]
+
 export function getComponentConfByType(type: string) {
   return componentConfList.find(c => c.type == type)
 }
