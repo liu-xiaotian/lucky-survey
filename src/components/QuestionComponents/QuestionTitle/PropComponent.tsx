@@ -3,7 +3,7 @@ import type { QuestionTitlePropsType } from './interface'
 import { useEffect } from 'react'
 
 const PropComponent = (props: QuestionTitlePropsType) => {
-  const { text, level, isCenter } = props
+  const { text, level, isCenter, onChange } = props
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -14,8 +14,19 @@ const PropComponent = (props: QuestionTitlePropsType) => {
     })
   }, [text, level, isCenter])
 
+  function handleValueChange() {
+    if (onChange) {
+      onChange(form.getFieldsValue())
+    }
+  }
+
   return (
-    <Form form={form} layout="vertical" initialValues={{ text, level, isCenter }}>
+    <Form
+      form={form}
+      layout="vertical"
+      initialValues={{ text, level, isCenter }}
+      onValuesChange={handleValueChange}
+    >
       <Form.Item
         label="标题内容"
         name="text"
