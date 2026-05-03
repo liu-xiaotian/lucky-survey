@@ -1,21 +1,36 @@
-import { Button, Checkbox, Form, Input, Select, Space } from 'antd'
-import type { OptionType, QuestionRadioPropsType } from './interface'
+import { nanoid } from 'nanoid'
+import { Form, Input, Checkbox, Select, Button, Space } from 'antd'
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons'
 import { useEffect } from 'react'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-// import { nanoid } from '@reduxjs/toolkit'
+import type { OptionType, QuestionRadioPropsType } from './interface'
 
 const PropComponent = (props: QuestionRadioPropsType) => {
-  const { title, isVertical, value, options, onChange, disabled } = props
+  const { title, isVertical, value, options = [], onChange, disabled } = props
   const [form] = Form.useForm()
 
   useEffect(() => {
     form.setFieldsValue({ title, isVertical, value, options })
-  }, [title, isVertical, value, options])
+  }, [title, isVertical, value])
 
   function handleValuesChange() {
     if (onChange == null) return
     // 触发 onChange 函数
+    const newValues = form.getFieldsValue() as QuestionRadioPropsType
+
+    if (newValues.options) {
+      // 需要清除 text undefined 的选项
+      newValues.options = newValues.options.filter(opt => !(opt.text == null))
+    }
+
+    const { options = [] } = newValues
+    options.forEach(opt => {
+      if (opt.value) return
+      opt.value = nanoid(5) // 补齐 opt value
+    })
+
+    onChange(newValues)
   }
+
   return (
     <Form
       layout="vertical"
@@ -77,14 +92,14 @@ const PropComponent = (props: QuestionRadioPropsType) => {
           )}
         </Form.List>
       </Form.Item>
-      <Form.Item label="默认选中" name={value}>
+      <Form.Item label="默认选中" name="value">
         <Select
           value={value}
-          options={options.map((text, value) => ({ value, lavel: text || '' }))}
+          options={options.map(({ text, value }) => ({ value, label: text || '' }))}
         ></Select>
       </Form.Item>
       <Form.Item name="isVertical" valuePropName="checked">
-        <Checkbox>居中显示</Checkbox>
+        <Checkbox>竖向排列</Checkbox>
       </Form.Item>
     </Form>
   )
