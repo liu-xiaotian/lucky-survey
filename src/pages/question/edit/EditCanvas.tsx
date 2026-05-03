@@ -46,26 +46,28 @@ const EditCanvas = ({ loading }: PropsType) => {
   }
   return (
     <div className={styles.canvas}>
-      {componentList.map(c => {
-        const { fe_id } = c
+      {componentList
+        .filter(c => !c.isHidden)
+        .map(c => {
+          const { fe_id } = c
 
-        // 拼接 class name
-        const wrapperDefaultClassName = styles['component-wrapper']
-        const selectedClassName = styles.selected
-        const wrapperClassName = classNames({
-          [wrapperDefaultClassName]: true,
-          [selectedClassName]: fe_id === selectedId,
-        })
-        return (
-          <div
-            key={fe_id}
-            className={wrapperClassName}
-            onClick={event => handleClick(event, fe_id)}
-          >
-            <div className={styles.component}>{genComponent(c)}</div>
-          </div>
-        )
-      })}
+          // 拼接 class name
+          const wrapperDefaultClassName = styles['component-wrapper']
+          const selectedClassName = styles.selected
+          const wrapperClassName = classNames({
+            [wrapperDefaultClassName]: true,
+            [selectedClassName]: fe_id === selectedId,
+          })
+          return (
+            <div
+              key={fe_id}
+              className={wrapperClassName}
+              onClick={event => handleClick(event, fe_id)}
+            >
+              <div className={styles.component}>{genComponent(c)}</div>
+            </div>
+          )
+        })}
     </div>
   )
 }
