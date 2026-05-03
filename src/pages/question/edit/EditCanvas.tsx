@@ -7,6 +7,7 @@ import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { changeSelectedId, type ComponentInfoType } from '../../../store/componentsReducer'
 import { getComponentConfByType } from '../../../components/QuestionComponents'
 import { useDispatch } from 'react-redux'
+import useBindCanvasKeyPress from '../../../hooks/useBindCanvasKeyPress'
 
 type PropsType = {
   loading: boolean
@@ -37,6 +38,9 @@ const EditCanvas = ({ loading }: PropsType) => {
     event.stopPropagation() // 阻止事件冒泡,点击画布的时候，不会触发父元素的点击事件，main 就不会自动清空
     dispatch(changeSelectedId(id))
   }
+
+  useBindCanvasKeyPress()
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', marginTop: '60px ' }}>
