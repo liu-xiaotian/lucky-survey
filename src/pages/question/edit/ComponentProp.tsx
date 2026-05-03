@@ -27,7 +27,7 @@ const ComponentProp = () => {
   if (selectedComponent == null) return <NoProp />
 
   // 3. 从选中的组件中提取出 type（组件类型，如 'Input'）和 props（当前已有的属性值）
-  const { type, props } = selectedComponent
+  const { type, props, isLocked, isHidden } = selectedComponent
 
   // 4. 根据类型（type）去组件库配置表里查找对应的“元数据”
   // 例如：输入框组件会有对应的属性设置组件（PropComponent）
@@ -56,7 +56,7 @@ const ComponentProp = () => {
   // 7. 渲染属性编辑组件
   // {...props}：把当前的属性值传进去，让表单显示出当前的内容
   // onChange：把修改函数传进去，让表单修改后能通知到父组件
-  return <PropComponent {...props} onChange={changeProps} />
+  return <PropComponent {...props} onChange={changeProps} disabled={isLocked || isHidden} />
 }
 
 export default ComponentProp

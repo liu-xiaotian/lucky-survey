@@ -1,7 +1,11 @@
 import { DeleteOutlined, EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
 import { Button, Space, Tooltip } from 'antd'
 import { useDispatch } from 'react-redux'
-import { changeComponentHidden, removeSelectedComponent } from '../../../store/componentsReducer'
+import {
+  changeComponentHidden,
+  removeSelectedComponent,
+  toggleComponentLocked,
+} from '../../../store/componentsReducer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 const EditToolbar = () => {
@@ -14,7 +18,9 @@ const EditToolbar = () => {
   function handleHidden() {
     dispatch(changeComponentHidden({ fe_id: selectedId, isHidden: true }))
   }
-  function handleLock() {}
+  function handleLock() {
+    dispatch(toggleComponentLocked({ fe_id: selectedId }))
+  }
   return (
     <Space>
       <Tooltip title="删除">
