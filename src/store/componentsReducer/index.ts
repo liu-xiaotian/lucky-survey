@@ -1,7 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
+import cloneDeep from 'lodash.clonedeep'
 import type { ComponentPropsType } from '../../components/QuestionComponents'
-import { getNextSelectedId } from './utils'
+import { getNextSelectedId, insertNewComponent } from './utils'
+import { nanoid } from '@reduxjs/toolkit'
 export type ComponentInfoType = {
   fe_id: string // TODO 后面解释
   type: string // 组件的类型，比如 "Input"、"Select"。
@@ -14,6 +16,7 @@ export type ComponentInfoType = {
 export type ComponentStateType = {
   selectedId: string // 当前选中的组件 id
   componentList: Array<ComponentInfoType> //存放所有组件的信息
+  copiedComponent: ComponentInfoType | null
 }
 
 //初始状态
@@ -21,6 +24,7 @@ const INIT_STATE: ComponentStateType = {
   selectedId: '',
   componentList: [],
   //其他扩展
+  copiedComponent: null,
 }
 
 export const componentsSlice = createSlice({
@@ -121,6 +125,26 @@ export const componentsSlice = createSlice({
         }
       }
     ),
+
+    // 拷贝当前选中的组件
+    copySelectedComponent: produce((draft: ComponentStateType) => {
+      const { selectedId, componentList = [] } = draft
+      const selectedComponent = componentList.find(c => c.fe_id === selectedId)
+      if (selectedComponent === null) return
+      draft.copiedComponent = cloneDeep(selectedComponent) // 深拷贝
+    }),
+
+    // 粘贴组件
+    pasteCopiedComponent: produce((draft: ComponentStateType) => {
+      const { copiedComponent } = draft
+      if (copiedComponent == null) return
+
+      // 要把 fe_id 给修改了，重要！！
+      copiedComponent.fe_id = nanoid()
+
+      // 插入 copiedComponent
+      insertNewComponent(draft, copiedComponent)
+    }),
   },
 })
 
@@ -132,5 +156,7 @@ export const {
   removeSelectedComponent,
   changeComponentHidden,
   toggleComponentLocked,
+  copySelectedComponent,
+  pasteCopiedComponent,
 } = componentsSlice.actions
 export default componentsSlice.reducer
