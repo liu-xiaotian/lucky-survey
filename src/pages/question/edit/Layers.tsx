@@ -7,11 +7,14 @@ import {
   changeComponentHidden,
   changeComponentTitle,
   changeSelectedId,
+  moveComponent,
   toggleComponentLocked,
 } from '../../../store/componentsReducer'
 
 import styles from './Layers.module.scss'
 import { EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
+import SortableContainer from '../../../components/DragSortable/SortableContainer'
+import SortableItem from '../../../components/DragSortable/SortableItem'
 
 const Layers = () => {
   const { componentList, selectedId } = useGetComponentInfo()
@@ -54,9 +57,17 @@ const Layers = () => {
   function changeLocked(fe_id: string) {
     dispatch(toggleComponentLocked({ fe_id }))
   }
+  // SortableContainer 组件的 items 属性，需要每个 item 都有 id
+  const componentListWithId = componentList.map(c => {
+    return { ...c, id: c.fe_id }
+  })
 
+  // 拖拽排序结束
+  function handleDragEnd(oldIndex: number, newIndex: number) {
+    dispatch(moveComponent({ oldIndex, newIndex }))
+  }
   return (
-    <div>
+    <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
       {componentList.map(c => {
         const { fe_id, title, isHidden, isLocked } = c
 
@@ -69,7 +80,7 @@ const Layers = () => {
         })
 
         return (
-          <div key={fe_id} id={fe_id}>
+          <SortableItem key={fe_id} id={fe_id}>
             <div className={styles.wrapper}>
               <div
                 className={titleClassName}
@@ -102,10 +113,10 @@ const Layers = () => {
                 </Space>
               </div>
             </div>
-          </div>
+          </SortableItem>
         )
       })}
-    </div>
+    </SortableContainer>
   )
 }
 

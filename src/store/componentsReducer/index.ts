@@ -4,6 +4,7 @@ import cloneDeep from 'lodash.clonedeep'
 import type { ComponentPropsType } from '../../components/QuestionComponents'
 import { getNextSelectedId, insertNewComponent } from './utils'
 import { nanoid } from '@reduxjs/toolkit'
+import { arrayMove } from '@dnd-kit/sortable'
 export type ComponentInfoType = {
   fe_id: string // TODO 后面解释
   type: string // 组件的类型，比如 "Input"、"Select"。
@@ -176,6 +177,19 @@ export const componentsSlice = createSlice({
         if (curComp) curComp.title = title
       }
     ),
+
+    // 移动组件位置
+    moveComponent: produce(
+      (
+        draft: ComponentStateType,
+        action: PayloadAction<{ oldIndex: number; newIndex: number }>
+      ) => {
+        const { componentList: curComponentList } = draft
+        const { oldIndex, newIndex } = action.payload
+
+        draft.componentList = arrayMove(curComponentList, oldIndex, newIndex)
+      }
+    ),
   },
 })
 
@@ -192,5 +206,6 @@ export const {
   selectPrevComponent,
   selectNextComponent,
   changeComponentTitle,
+  moveComponent,
 } = componentsSlice.actions
 export default componentsSlice.reducer
