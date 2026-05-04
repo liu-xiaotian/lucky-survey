@@ -5,7 +5,7 @@ import { type QuestionTitlePropsType } from './QuestionTitle'
 import { type QuestionParagraphPropsType } from './QuestionParagraph'
 import { type QuestionInfoPropsType } from './QuestionInfo'
 import { type QuestionTextareaPropsType } from './QuestionTextarea'
-import { type QuestionRadioPropsType } from './QuestionRadio'
+import { type QuestionRadioPropsType, type QuestionRadioStatPropsType } from './QuestionRadio'
 import { type QuestionCheckboxPropsType } from './QuestionCheckbox'
 // 引入组件的 元信息对象
 import QuestionTitleConf from './QuestionTitle'
@@ -15,6 +15,7 @@ import QuestionInfoConf from './QuestionInfo'
 import QuestionTextareaConf from './QuestionTextarea'
 import QuestionRadioConf from './QuestionRadio'
 import QuestionCheckbxConf from './QuestionCheckbox'
+import { type QuestionCheckboxStatPropsType } from './QuestionCheckbox'
 
 // 各个组件的 prop type
 export type ComponentPropsType = QuestionInputPropsType &
@@ -25,6 +26,9 @@ export type ComponentPropsType = QuestionInputPropsType &
   QuestionRadioPropsType &
   QuestionCheckboxPropsType
 
+// 统一，各个组件的统计属性类型
+type ComponentStatPropsType = QuestionRadioStatPropsType & QuestionCheckboxStatPropsType
+
 // 统一，组件的配置 type
 export type ComponentConfType = {
   title: string
@@ -32,6 +36,7 @@ export type ComponentConfType = {
   Component: FC<ComponentPropsType> //这个组件是一个 React 函数组件，接收统一的 ComponentPropsType 类型的 props
   PropComponent: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
+  StatComponent?: FC<ComponentStatPropsType>
 }
 
 // 全部的组件配置的列表 把所有组件的元信息 放到一个数组里，统一管理
