@@ -7,7 +7,7 @@ import { type ComponentStateType } from '../store/componentsReducer'
 // as ComponentStateType 强制类型转换，方便 TypeScript 检查。
 
 function useGetComponentInfo() {
-  const components = useSelector<StateType>(state => state.components) as ComponentStateType
+  const components = useSelector<StateType>(state => state.components.present) as ComponentStateType
 
   const { componentList = [], selectedId, copiedComponent } = components // 解构出组件列表，如果 components 为空，也默认 componentList 是空数组。
 

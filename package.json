@@ -28,6 +28,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.14.2",
     "redux": "^5.0.1",
+    "redux-undo": "^1.1.0",
     "sass": "^1.99.0"
   },
   "devDependencies": {
