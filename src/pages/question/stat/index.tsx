@@ -4,6 +4,8 @@ import { useTitle } from 'ahooks'
 import useLoadQuestionData from '../../../hooks/useLoadQuestionData'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 
+import styles from './index.module.scss'
+
 const Stat = () => {
   const nav = useNavigate()
   const { loading } = useLoadQuestionData()
@@ -13,29 +15,48 @@ const Stat = () => {
   useTitle(`问卷统计 - ${title}`)
 
   // loading 效果
-  if (loading) {
-    ;<div style={{ textAlign: 'center', marginTop: '60px' }}>
+  const LoadingELem = (
+    <div style={{ textAlign: 'center', marginTop: '60px' }}>
       <Spin />
     </div>
-  }
+  )
 
-  if (!isPublished) {
+  // Content Elem
+  function genContentElem() {
+    if (typeof isPublished === 'boolean' && !isPublished) {
+      return (
+        <div style={{ flex: '1' }}>
+          <Result
+            status="warning"
+            title="该页面尚未发布"
+            extra={
+              <Button type="primary" onClick={() => nav(-1)}>
+                返回
+              </Button>
+            }
+          ></Result>
+        </div>
+      )
+    }
+
     return (
-      <div style={{ flex: '1' }}>
-        <Result
-          status="warning"
-          title="该页面尚未发布"
-          extra={
-            <Button type="primary" onClick={() => nav(-1)}>
-              返回
-            </Button>
-          }
-        ></Result>
-      </div>
+      <>
+        <div className={styles.left}>左</div>
+        <div className={styles.main}>中</div>
+        <div className={styles.right}>右</div>
+      </>
     )
   }
 
-  return <div>stat</div>
+  return (
+    <div className={styles.container}>
+      <div>header</div>
+      <div className={styles['content-wrapper']}>
+        {loading && LoadingELem}
+        {!loading && <div className={styles.content}>{genContentElem()}</div>}
+      </div>
+    </div>
+  )
 }
 
 export default Stat
