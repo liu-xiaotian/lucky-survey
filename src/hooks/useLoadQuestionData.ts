@@ -4,6 +4,7 @@ import { getQuestionService } from '../services/question'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { resetComponents } from '../store/componentsReducer'
+import { resetPageInfo } from '../store/pageInfoReducer'
 
 function useLoadingQuestionData() {
   const { id = '' } = useParams()
@@ -24,7 +25,7 @@ function useLoadingQuestionData() {
   useEffect(() => {
     if (!data) return
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { title = '', componentList = [] } = data
+    const { title = '', desc = '', js = '', css = '', componentList = [] } = data
 
     // 获取默认的 selectedId
     let selectedId = ''
@@ -33,6 +34,9 @@ function useLoadingQuestionData() {
     }
     // 把 componentList 存储到 Redux store 中
     dispatch(resetComponents({ componentList, selectedId: selectedId, copiedComponent: null }))
+
+    // 把 pageInfo 存储到 redux 中
+    dispatch(resetPageInfo({ title, desc, js, css }))
   }, [data])
   // 判断 id 变化，执行 ajax 加载问卷数据
   useEffect(() => {
