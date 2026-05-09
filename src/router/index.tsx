@@ -10,8 +10,9 @@ import NotFound from '../pages/NotFound'
 import List from '../pages/manage/List'
 import Star from '../pages/manage/Star'
 import Trash from '../pages/manage/Trash'
-import Stat from '../pages/question/Stat'
-import Edit from '../pages/question/Edit'
+import { lazy } from 'react'
+// import Stat from '../pages/question/Stat'
+// import Edit from '../pages/question/Edit'
 
 const router = createBrowserRouter([
   {
@@ -60,11 +61,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'stat/:id',
-        element: <Stat />,
+        Component: lazy(() => import('../pages/question/Stat')), // 路由懒加载， 拆分 bundle , 优化首页体积
       },
       {
         path: 'edit/:id',
-        element: <Edit />,
+        Component: lazy(() => import(/* webpackChunkName:"editPage" */ '../pages/question/Edit')),
       },
     ],
   },
