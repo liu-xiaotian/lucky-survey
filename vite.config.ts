@@ -18,4 +18,25 @@ export default defineConfig({
       },
     },
   },
+  // 2. 构建分包配置 (对应 webpack optimization.splitChunks)
+  build: {
+    rollupOptions: {
+      output: {
+        // 手动分包逻辑
+        manualChunks(id) {
+          // id 是模块的绝对路径，通过判断路径来决定分到哪个 chunk
+          if (id.includes('node_modules')) {
+            if (id.includes('antd')) {
+              return 'antd-chunk'
+            }
+            if (id.includes('react-dom')) {
+              return 'reactDom-chunk'
+            }
+            // 其余 node_modules 里的内容分到 vendors
+            return 'vendors-chunk'
+          }
+        },
+      },
+    },
+  },
 })
