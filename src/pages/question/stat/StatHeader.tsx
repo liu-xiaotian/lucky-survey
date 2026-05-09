@@ -1,7 +1,8 @@
-import { useRef } from 'react'
-import { Space, Button, Typography, Input, Tooltip, message, Popover, QRCode } from 'antd'
+import { useMemo, useRef } from 'react'
+import { Space, Button, Typography, Input, Tooltip, message, Popover } from 'antd'
 import type { InputRef } from 'antd'
 import { LeftOutlined, CopyOutlined, QrcodeOutlined } from '@ant-design/icons'
+import { QRCodeSVG } from 'qrcode.react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGetPageInfo from '../../../hooks/useGetPageInfo'
 import styles from './StatHeader.module.scss'
@@ -24,7 +25,10 @@ const StatHeader = () => {
     message.success('拷贝成功')
   }
 
-  function genLinkAndQRCodeElem() {
+  // 使用 useMemo 1. 依赖项是否经常变化; 2. 缓存的元素是否创建成本较高
+  const LinkAndQRCodeElem = useMemo(() => {
+    console.log(isPublished)
+
     if (!isPublished) return null
 
     // 拼接 url ，需要参考 C 端的规则
@@ -33,7 +37,7 @@ const StatHeader = () => {
     // 定义二维码组件
     const QRCodeElem = (
       <div style={{ textAlign: 'center' }}>
-        <QRCode value={url} size={150} />
+        <QRCodeSVG value={url} size={150} />
       </div>
     )
 
@@ -48,7 +52,7 @@ const StatHeader = () => {
         </Popover>
       </Space>
     )
-  }
+  }, [id, isPublished])
 
   return (
     <div className={styles['header-wrapper']}>
@@ -61,7 +65,7 @@ const StatHeader = () => {
             <Title>{title}</Title>
           </Space>
         </div>
-        <div className={styles.main}>{genLinkAndQRCodeElem()}</div>
+        <div className={styles.main}>{LinkAndQRCodeElem}</div>
         <div className={styles.right}>
           <Button type="primary" onClick={() => nav(`/question/edit/${id}`)}>
             编辑问卷

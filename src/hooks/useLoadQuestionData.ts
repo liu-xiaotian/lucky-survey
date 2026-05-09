@@ -25,7 +25,14 @@ function useLoadingQuestionData() {
   useEffect(() => {
     if (!data) return
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { title = '', desc = '', js = '', css = '', componentList = [] } = data
+    const {
+      title = '',
+      desc = '',
+      js = '',
+      css = '',
+      isPublished = false,
+      componentList = [],
+    } = data
 
     // 获取默认的 selectedId
     let selectedId = ''
@@ -36,7 +43,7 @@ function useLoadingQuestionData() {
     dispatch(resetComponents({ componentList, selectedId: selectedId, copiedComponent: null }))
 
     // 把 pageInfo 存储到 redux 中
-    dispatch(resetPageInfo({ title, desc, js, css }))
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }))
   }, [data])
   // 判断 id 变化，执行 ajax 加载问卷数据
   useEffect(() => {
