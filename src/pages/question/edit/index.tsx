@@ -16,7 +16,7 @@ const Edit = () => {
   }
   return (
     <div className={styles.container}>
-      <div style={{ backgroundColor: '#fff', height: '40px' }}>
+      <div style={{ backgroundColor: '#fff', height: '64px' }}>
         <EditHeader />
       </div>
       <div className={styles['container-wrapper']}>
