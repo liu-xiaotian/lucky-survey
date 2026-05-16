@@ -76,7 +76,12 @@ const SaveButton = () => {
   )
 
   return (
-    <Button onClick={save} disabled={loading} icon={loading ? <LoadingOutlined /> : null}>
+    <Button
+      style={{ marginRight: '10px' }}
+      onClick={save}
+      disabled={loading}
+      icon={loading ? <LoadingOutlined /> : null}
+    >
       保存
     </Button>
   )
